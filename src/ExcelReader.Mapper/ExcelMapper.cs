@@ -114,11 +114,20 @@ public class ExcelMapper
                 {
                     validation(prop, value);
                 }
-
                 if (value != DBNull.Value)
                 {
-                    prop.SetValue(rowObject, Convert.ChangeType(value, prop.PropertyType));
+                    var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                    var convertedValue = Convert.ChangeType(value, targetType);
+                    prop.SetValue(rowObject, convertedValue);
                 }
+                else if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    prop.SetValue(rowObject, null);
+                }
+                //if (value != DBNull.Value)
+                //{
+                //    prop.SetValue(rowObject, Convert.ChangeType(value, prop.PropertyType));
+                //}
             }
             rows.Add(rowObject);
         }

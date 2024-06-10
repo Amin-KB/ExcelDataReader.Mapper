@@ -16,7 +16,8 @@ namespace ExcelReader.Mapper.ChecksAndValidations
         StringLengthCheck.Validate,
         FormatCheck.Validate,
         CustomValidationCheck.Validate,
-        EmailCheck.Validate
+        EmailCheck.Validate,
+         NullableCheck.Validate
     };
 
         public static object ApplyDefaultValue(PropertyInfo prop, object value)
